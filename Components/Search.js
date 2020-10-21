@@ -17,7 +17,7 @@ class Search extends React.Component {
   }
 
   _searchTextInputChanged(text) {
-    this.setState({ searchedText: text })
+    this.searchedText = text
   }
 
   _loadFilms() {
