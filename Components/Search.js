@@ -4,7 +4,7 @@ import { getFilmsFromApiWithSearchedText } from '../API/TMDBApi' // import { } f
 //import films from '../Helpers/filmsData'
 import FilmItem from './FilmItem'
 import React from 'react'
-import { StyleSheet, View, TextInput, Button, FlatList, Text } from 'react-native'
+import { StyleSheet, View, TextInput, Button, FlatList, Text, ActivityIndicator } from 'react-native'
 
 class Search extends React.Component {
 
@@ -12,7 +12,8 @@ class Search extends React.Component {
     super(props)
     this.searchedText = "" // Initialisation de notre donnée searchedText en dehors du state
     this.state = {
-      films: []
+      films: [],
+      isLoading: false // Par défaut à false car il n'y a pas de chargement tant qu'on ne lance pas de recherche
     }
   }
 
@@ -21,12 +22,26 @@ class Search extends React.Component {
   }
 
   _loadFilms() {
-      console.log(this.state.searchedText) // Un log pour vérifier qu'on a bien le texte du TextInput
-      if (this.searchedText.length > 0) { // Seulement si le texte recherché n'est pas vide
+      if (this.searchedText.length > 0) {
+        this.setState({ isLoading: true }) // Lancement du chargement
         getFilmsFromApiWithSearchedText(this.searchedText).then(data => {
-            this.setState({ films: data.results })
+            this.setState({
+              films: data.results,
+              isLoading: false // Arrêt du chargement
+            })
         })
       }
+  }
+
+  _displayLoading() {
+    if (this.state.isLoading) {
+      return (
+        <View style={styles.loading_container}>
+          <ActivityIndicator size='large' />
+          {/* Le component ActivityIndicator possède une propriété size pour définir la taille du visuel de chargement : small ou large. Par défaut size vaut small, on met donc large pour que le chargement soit bien visible */}
+        </View>
+      )
+    }
   }
 
   _searchTextInputChanged(text) {
@@ -49,6 +64,7 @@ class Search extends React.Component {
           keyExtractor={(item) => item.id.toString()}
             renderItem={({item}) => <FilmItem film={item}/>}
   />
+        {this._displayLoading()}
         </View>
     )
   }
@@ -66,6 +82,15 @@ const styles = StyleSheet.create({
     borderColor: '#000000',
     borderWidth: 1,
     paddingLeft: 5
+  },
+  loading_container: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 100,
+    bottom: 0,
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 })
 export default Search
