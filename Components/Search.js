@@ -17,10 +17,6 @@ class Search extends React.Component {
     }
   }
 
-  _searchTextInputChanged(text) {
-    this.searchedText = text
-  }
-
   _loadFilms() {
       if (this.searchedText.length > 0) {
         this.setState({ isLoading: true }) // Lancement du chargement
