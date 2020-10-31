@@ -3,6 +3,7 @@
 import { getFilmsFromApiWithSearchedText } from '../API/TMDBApi' // import { } from ... car c'est un export nommé dans TMDBApi.js
 //import films from '../Helpers/filmsData'
 import FilmItem from './FilmItem'
+import FilmDetail from './FilmDetail'
 import React from 'react'
 import { StyleSheet, View, TextInput, Button, FlatList, Text, ActivityIndicator } from 'react-native'
 
@@ -59,6 +60,11 @@ class Search extends React.Component {
       })
   }
 
+  _displayDetailForFilm = (idFilm) => {
+      console.log("Display film with id " + idFilm)
+      this.props.navigation.navigate("FilmDetail", { idFilm: idFilm })
+  }
+
   render() {
     return (
       <View style={styles.main_container}>
@@ -73,7 +79,7 @@ class Search extends React.Component {
         <FlatList
           data={this.state.films}
           keyExtractor={(item) => item.id.toString()}
-            renderItem={({item}) => <FilmItem film={item}/>}
+          renderItem={({item}) => <FilmItem film={item} displayDetailForFilm={this._displayDetailForFilm} />}
           onEndReachedThreshold={0.5}
           onEndReached={() => {
             if (this.page < this.totalPages) { // On vérifie qu'on n'a pas atteint la fin de la pagination (totalPages) avant de charger plus d'éléments
