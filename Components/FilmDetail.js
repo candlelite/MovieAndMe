@@ -4,10 +4,17 @@ import React from 'react'
 import { StyleSheet, View, Text } from 'react-native'
 
 class FilmDetail extends React.Component {
+
   render() {
+    console.log(this.props);
+    console.log(this.props.route.params.idFilm);
+    const { idFilm, otherParam } = this.props.route.params
+
     return (
       <View style={styles.main_container}>
-        <Text>Détail du film {this.props.navigation.getParam('idFilm')}</Text>
+        <Text>Détail du film { this.props.route.params.idFilm } </Text>
+        <Text>idFilm: {JSON.stringify(idFilm)}</Text>
+        <Text>otherParam: {JSON.stringify(otherParam)}</Text>
       </View>
     )
   }

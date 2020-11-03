@@ -3,6 +3,7 @@
 import { getImageFromApi } from '../API/TMDBApi'
 import React from 'react'
 import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native'
+//import FilmDetail from './FilmDetail'
 
 class FilmItem extends React.Component {
   render() {

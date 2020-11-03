@@ -1,5 +1,5 @@
 //  App.js in MovieAndMe project
-
+import 'react-native-gesture-handler';
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -11,9 +11,15 @@ const SearchStackNavigator = createStackNavigator();
 function App() {
   return (
     <NavigationContainer>
-      <SearchStackNavigator.Navigator>
-        <SearchStackNavigator.Screen name="Rechercher" component={Search} />
-        <SearchStackNavigator.Screen name="Détail du Film" component={FilmDetail} />
+      <SearchStackNavigator.Navigator initialRouteName="Search">
+        <SearchStackNavigator.Screen
+          name="Search"
+          component={Search}
+          options={{ title: 'Rechercher' }} />
+        <SearchStackNavigator.Screen
+          name="FilmDetail"
+          component={FilmDetail}
+          options={{ title: 'Détail du film' }} />
       </SearchStackNavigator.Navigator>
     </NavigationContainer>
   );
