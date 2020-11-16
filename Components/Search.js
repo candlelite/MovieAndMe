@@ -6,6 +6,7 @@ import FilmItem from './FilmItem'
 import FilmDetail from './FilmDetail'
 import React from 'react'
 import { StyleSheet, View, TextInput, Button, FlatList, Text, ActivityIndicator } from 'react-native'
+import { connect } from 'react-redux'
 
 class Search extends React.Component {
 
@@ -81,8 +82,16 @@ class Search extends React.Component {
         {/* Ici j'ai simplement repris l'exemple sur la documentation de la FlatList */}
         <FlatList
           data={this.state.films}
+          extraData={this.props.favoritesFilm}
+          // On utilise la prop extraData pour indiquer à notre FlatList que d’autres données doivent être prises en compte si on lui demande de se re-rendre
           keyExtractor={(item) => item.id.toString()}
-          renderItem={({item}) => <FilmItem film={item} displayDetailForFilm={this._displayDetailForFilm} />}
+          renderItem={({item}) =>
+            <FilmItem
+              film={item}
+              isFilmFavorite={(this.props.favoritesFilm.findIndex(film => film.id === item.id) !== -1) ? true : false}
+              displayDetailForFilm={this._displayDetailForFilm}
+            />
+          }
           onEndReachedThreshold={0.5}
           onEndReached={() => {
             if (this.page < this.totalPages) { // On vérifie qu'on n'a pas atteint la fin de la pagination (totalPages) avant de charger plus d'éléments
@@ -118,4 +127,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   }
 })
-export default Search
+
+// On connecte le store Redux, ainsi que les films favoris du state de notre application, à notre component Search
+const mapStateToProps = state => {
+  return {
+    favoritesFilm: state.favoritesFilm
+  }
+}
+
+export default connect(mapStateToProps)(Search)
