@@ -4,6 +4,7 @@ import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Provider } from 'react-redux'
 import Store from './Store/configureStore'
 import Search from './Components/Search'
@@ -35,7 +36,28 @@ function App() {
     <Provider store={Store}>
       <NavigationContainer>
 
-        <MoviesTabNavigator.Navigator>
+        <MoviesTabNavigator.Navigator
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ focused, color, size }) => {
+            let iconName;
+
+            if (route.name === 'Search') {
+              iconName = focused
+                ? 'ios-search'
+                : 'ios-search';
+            } else if (route.name === 'Favorites') {
+              iconName = focused ? 'ios-heart' : 'ios-heart';
+            }
+
+            // You can return any component that you like here!
+            return <Ionicons name={iconName} size={size} color={color} />;
+          },
+        })}
+        tabBarOptions={{
+          activeTintColor: 'tomato',
+          inactiveTintColor: 'gray',
+        }}
+        >
           <MoviesTabNavigator.Screen
             name="Search"
             component={SearchStackScreen}
