@@ -20,6 +20,7 @@ class Search extends React.Component {
       films: [],
       isLoading: false // Par défaut à false car il n'y a pas de chargement tant qu'on ne lance pas de recherche
     }
+    this._loadFilms = this._loadFilms.bind(this)
   }
 
   _loadFilms() {
