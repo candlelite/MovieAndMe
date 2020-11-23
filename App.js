@@ -12,6 +12,7 @@ import Favorites from './Components/Favorites'
 import FilmDetail from './Components/FilmDetail'
 
 const SearchStackNavigator = createStackNavigator();
+const FavoritesStackNavigator = createStackNavigator();
 const MoviesTabNavigator = createBottomTabNavigator();
 
 function SearchStackScreen() {
@@ -28,6 +29,23 @@ function SearchStackScreen() {
         options={{ title: 'Détail du film' }}
       />
     </SearchStackNavigator.Navigator>
+  );
+}
+
+function FavoritesStackScreen() {
+  return (
+    <FavoritesStackNavigator.Navigator initialRouteName="Search">
+      <FavoritesStackNavigator.Screen
+        name="Favorites"
+        component={Favorites}
+        options={{ title: 'Favoris' }}
+      />
+      <FavoritesStackNavigator.Screen
+        name="FilmDetail"
+        component={FilmDetail}
+        options={{ title: 'Détail du film' }}
+      />
+    </FavoritesStackNavigator.Navigator>
   );
 }
 
@@ -65,7 +83,7 @@ function App() {
           />
           <MoviesTabNavigator.Screen
             name="Favorites"
-            component={Favorites}
+            component={FavoritesStackScreen}
             options={{ title: 'Favoris' }}
           />
         </MoviesTabNavigator.Navigator>
