@@ -112,6 +112,23 @@ class FilmDetail extends React.Component {
     }
   }
 
+  _displayHeaderActionButton({ navigation }) {
+    const { film } = this.state
+    if (film != undefined && Platform.OS === 'ios') {
+      React.useLayoutEffect(() => {
+        navigation.setOptions({
+          headerRight: <TouchableOpacity
+                              style={styles.share_touchable_headerrightbutton}
+                              onPress={() => this.shareFilm()}>
+                              <Image
+                                style={styles.share_image}
+                                source={require('../Images/ic_share.png')} />
+                            </TouchableOpacity>
+        })
+      }, [navigation]);
+    }
+  }
+
   render() {
     console.log(this.props)
     return (
@@ -188,6 +205,9 @@ const styles = StyleSheet.create({
   share_image: {
     width: 30,
     height: 30
+  },
+  share_touchable_headerrightbutton: {
+    marginRight: 8
   }
 })
 
